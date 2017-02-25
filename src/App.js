@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Menu from './components/Menu';
 import EmailEditor from './components/EmailEditor';
+import EmailList from './components/EmailListView';
 import './static/css/email.css';
 
 const data = {
@@ -25,8 +26,8 @@ class App extends Component {
     render() {
         return (
             <div id="layout" className="content pure-g">
-                <Menu menuItems={data.menuItems}/>
-                <div id="list" className="pure-u-1"></div>
+                <Menu />
+                <EmailList />
                 <EmailEditor/>
             </div>
         );

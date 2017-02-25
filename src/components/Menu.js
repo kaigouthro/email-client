@@ -1,16 +1,16 @@
-import React, {Component, PropTypes } from 'react';
-import { Link } from 'react-router-dom';
+import React, {Component, PropTypes} from 'react';
+import {connect} from 'react-redux';
+import {selectGroup} from '../actions';
+import {Link} from 'react-router-dom';
 
-class Menu extends Component {
+export class Menu extends Component {
     constructor(props) {
         super(props);
         this.renderMenuItems = this.renderMenuItems.bind(this);
     }
-    renderMenuItems(){
-        const { menuItems } = this.props;
-        return menuItems.map( (item,index) => (
-          <MenuItem {...item} key={index} />
-        ));
+    renderMenuItems() {
+        const {menuItems,selectGroup} = this.props;
+        return menuItems.map((count, name) => (<MenuItem name={name} count={count} key={name} handleClick={() => selectGroup(name.toLowerCase())}/>)).valueSeq();
     }
     render() {
         return (
@@ -19,7 +19,7 @@ class Menu extends Component {
                     <button className="primary-button pure-button">Compose</button>
                     <div className="pure-menu">
                         <ul className="pure-menu-list">
-                          {this.renderMenuItems()}
+                            {this.renderMenuItems()}
                         </ul>
                     </div>
                 </div>
@@ -29,16 +29,35 @@ class Menu extends Component {
 }
 
 export const MenuItem = (props) => (
-  <li className="pure-menu-item">
-      <Link to={props.path} className="pure-menu-link">
-          {props.name} {props.count ? <span className="email-count"> ({props.count}) </span> : null}
-      </Link>
-  </li>
+    <li className="pure-menu-item">
+        <a href="#" className="pure-menu-link" onClick={props.handleClick}>
+            {props.name}   {props.count
+                ? <span className="email-count">
+                        ({props.count})
+                    </span>
+                : null}
+        </a>
+    </li>
 )
 
 MenuItem.propTypes = {
-        name : PropTypes.string,
-        path : PropTypes.string
+    name: PropTypes.string
+}
+const capString = (str) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
+const getMenuItems = (emailList) => {
+    return emailList.groupBy(value => value.get('group')).map(value => value.size).mapKeys(capString);
 }
 
-export default Menu;
+const mapStateToProps = (state) => ({
+    menuItems: getMenuItems(state.email.get('emailList'))
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    selectGroup: (group) => {
+        dispatch(selectGroup(group))
+    }
+})
+
+export default connect(mapStateToProps,mapDispatchToProps)(Menu);

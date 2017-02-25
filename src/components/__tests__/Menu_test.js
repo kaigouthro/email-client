@@ -1,12 +1,13 @@
 import {shallow, render} from 'enzyme';
 import React from 'react';
-import Menu, {MenuItem} from '../Menu';
+import {MenuItem,Menu} from '../Menu';
 import {Link} from 'react-router-dom';
+import {fromJS} from 'immutable';
 
 describe("Menu", () => {
     let menu = null;
     beforeEach(() => {
-        menu = shallow(<Menu menuItems={[]}/>);
+        menu = shallow(<Menu menuItems={fromJS([])}/>);
     });
 
     it('should have a menu', () => {
@@ -24,19 +25,11 @@ describe("Menu", () => {
     });
 
     it('should have the menu items according to props', () => {
-        const sampleProps = [
-            {
-                name: "hello",
-                count: 2,
-                path: "/"
-            },
-            {
-                name: "hello",
-                count: 2,
-                path: "/"
-            }
-        ];
-        const menuItems = shallow(<Menu menuItems={sampleProps}/>);
+        const sampleProps = {
+          "inbox" : 0,
+          "sent" :  3
+        };
+        const menuItems = shallow(<Menu menuItems={fromJS(sampleProps)}/>);
         expect(menuItems.find(MenuItem).length).toEqual(2);
     });
 
@@ -47,16 +40,16 @@ describe("MenuItem", () => {
     beforeEach(() => {
         menuItem = shallow(<MenuItem name="Inbox" count={3} path="/inbox"/>);
     })
-    it('should have Link component', () => {
-        expect(menuItem.find(Link).length).toEqual(1);
+    it('should have anchor component', () => {
+        expect(menuItem.find('a').exists()).toBeTruthy();
     });
     it('should show the email count when count is provided', () => {
         expect(menuItem.find('.email-count').text()).toContain(3);
     });
     it('should not show email count when count is not provided', () => {
         const menu = shallow(
-            <MenuItem name="Inbox" path="/inbox"></MenuItem>
+            <MenuItem name="Inbox" ></MenuItem>
         );
-        expect(menu.find('.email-count').length).toEqual(0);
+        expect(menu.find('.email-count').exists()).toBeFalsy();
     })
 })
