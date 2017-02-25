@@ -15,6 +15,8 @@ class App extends Component {
     return (
       <div id="layout" className="content pure-g">
         <Menu menuItems={data.menuItems} />
+        <div id="list" class="pure-u-1">
+        </div>
       </div>
     );
   }
