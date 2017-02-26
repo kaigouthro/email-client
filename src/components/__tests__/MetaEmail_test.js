@@ -1,6 +1,6 @@
 import React from 'react';
 import {shallow} from 'enzyme';
-import { MetaEmail , Avatar } from '../MetaEmail';
+import { MetaEmail , Avatar , UserDetails} from '../MetaEmail';
 
 describe('MetaEmail',() => {
       let metaEmail = null;
@@ -16,9 +16,10 @@ describe('MetaEmail',() => {
           metaEmail = shallow(<MetaEmail {...sampleProps}/>);
       })
       it("should have proper name,desc,subject",()=>{
-              expect(metaEmail.text()).toContain('Test');
-              expect(metaEmail.text()).toContain('TestSubject');
-              expect(metaEmail.text()).toContain('Hello Test');
+              const userDetails = shallow(<UserDetails name="Test" subject="TestSubject" desc="Hello Test" />);
+              expect(userDetails.text()).toContain('Test');
+              expect(userDetails.text()).toContain('TestSubject');
+              expect(userDetails.text()).toContain('Hello Test');
       });
       it("should have a Avatar component",() => {
         expect(metaEmail.find(Avatar).length).toEqual(1);

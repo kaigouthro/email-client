@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
 import * as actions from '../actions';
 
 export class Menu extends Component {
@@ -15,7 +16,7 @@ export class Menu extends Component {
         return (
             <div id="nav" className="pure-u">
                 <div className="nav-inner">
-                    <button className="primary-button pure-button">Compose</button>
+                    <Link to="/compose" className="primary-button pure-button">Compose</Link>
                     <div className="pure-menu">
                         <ul className="pure-menu-list">
                             {this.renderMenuItems()}

@@ -7,7 +7,7 @@ import andrew from '../static/img/andrew-avatar.png';
 import yfinance from '../static/img/yfinance-avatar.png';
 import ynews from '../static/img/ynews-avatar.png';
 
-import {SELECT_GROUP, SELECT_EMAIL} from '../actions/types';
+import {SELECT_GROUP, SELECT_EMAIL,SET_FORM,SEND_EMAIL} from '../actions/types';
 
 const emailList = fromJS([
     {
@@ -73,7 +73,9 @@ const emailList = fromJS([
 
 const initialState = {
     currentSelect: 'inbox',
-    emailList
+    emailList,
+    emailBody : '',
+    emailSubject : '',
 }
 const emailReducer = (state = fromJS(initialState), action = {
     type: ''
@@ -93,6 +95,21 @@ const emailReducer = (state = fromJS(initialState), action = {
                       ], (emailItem) => {
                           return emailItem.set('selected', true).set('unread', false);
                       });
+        case SET_FORM:
+            return state.set(action.name,action.value);
+        case SEND_EMAIL:
+            const description = action.emailBody.split(/\s+/).slice(0,5).join(" ");
+            const newEmail = fromJS({
+              selected: false,
+              unread: true,
+              avatar: eric,
+              desc: description,
+              name: 'Current User',
+              subject: action.emailSubject,
+              content : action.emailBody,
+              group: 'sent'
+            });
+            return state.updateIn(['emailList','sent'],(list) => list.push(newEmail));
         default:
             return state;
     }

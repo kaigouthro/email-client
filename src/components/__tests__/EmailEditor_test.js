@@ -1,12 +1,34 @@
 import React from 'react';
 import {shallow} from 'enzyme';
-import EmailEditor, {EmailHeader} from '../EmailEditor';
+import {Link} from 'react-router-dom';
+import {EmailHeader,EmailViewer} from '../EmailViewer';
+import {fromJS} from 'immutable'
 
-describe("EmailEditor", () => {
+describe("EmailViewer", () => {
     let emailEditor = null;
     beforeEach(() => {
-        emailEditor = shallow(<EmailEditor/>);
-    })
+        const sampleProps = fromJS([
+            {
+                selected: false,
+                unread: true,
+                avatar: 'tilo.jpg',
+                desc: 'Hey, I just wanted to check in with you from Toronto. I got here earlier today.',
+                name: 'Tilo Mitra',
+                subject: 'Hello from Toronto',
+                group: 'inbox'
+            }, {
+                selected: false,
+                unread: true,
+                avatar: 'eric',
+                desc: 'Hey, I had some feedback for pull request #51. We should center the menu so it looks better on mobile.',
+                name: 'Eric Ferraiuolo',
+                subject: 'Re: Pull Requests',
+                group: 'inbox'
+
+            }
+        ]);
+        emailEditor = shallow(<EmailViewer match={{params:{emailId:1}}} emailList={sampleProps}/>);
+    });
     it("should have email-content class", () => {
         expect(emailEditor.find('.email-content').exists()).toBeTruthy();
     });
@@ -26,19 +48,19 @@ describe("EmailHeader", () => {
             title: 'Hello from Toronto',
             name: 'Tilo Mitra'
         }
-        emailEditor = shallow( <EmailHeader {...sampleProps} />);
+        emailEditor = shallow(<EmailHeader {...sampleProps}/>);
     });
 
-    it("should have email header and relevant content",() => {
+    it("should have email header and relevant content", () => {
         expect(emailEditor.find('.email-content-header').exists()).toBeTruthy();
         expect(emailEditor.find('.email-content-title').exists()).toBeTruthy();
         expect(emailEditor.find('.email-content-controls').exists()).toBeTruthy();
     });
-    it("should have reply button", () => {
-        expect(emailEditor.find('.pure-button').text()).toContain('Reply');
+    it("should have Link reply button", () => {
+        expect(emailEditor.find(Link).exists()).toBeTruthy();
     });
-    it("should have relevant content based on props",() => {
-      expect(emailEditor.find('.email-content-title').text()).toContain('Hello from Toronto');
-      expect(emailEditor.find('.email-content-subtitle').text()).toContain('Tilo Mitra');
+    it("should have relevant content based on props", () => {
+        expect(emailEditor.find('.email-content-title').text()).toContain('Hello from Toronto');
+        expect(emailEditor.find('.email-content-subtitle').text()).toContain('Tilo Mitra');
     })
 })

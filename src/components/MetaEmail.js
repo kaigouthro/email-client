@@ -1,4 +1,5 @@
-import React, { PropTypes} from 'react';
+import React, {PropTypes} from 'react';
+import {Link} from 'react-router-dom';
 import classNames from 'classnames';
 
 export const MetaEmail = (props) => {
@@ -12,21 +13,17 @@ export const MetaEmail = (props) => {
         handleClick
     } = props;
     const emailClass = classNames({
-        'email-item':true,
+        'email-item': true,
         'email-item-selected': selected && !unread,
         'email-item-unread': unread,
-        'pure-g':true
+        'pure-g': true
     });
     return (
         <div className={emailClass} onClick={handleClick}>
-            <Avatar avatar={avatar} name={props.name}/>
-            <div className="pure-u-3-4">
-                <h5 className="email-name">{name}</h5>
-                <h4 className="email-subject">{subject}</h4>
-                <p className="email-desc">
-                    {desc}
-                </p>
-            </div>
+            <Link to={`/email/${props.index}`}>
+                <Avatar avatar={avatar} name={props.name}/>
+                <UserDetails name={name} desc={desc} subject={subject} />
+            </Link>
         </div>
     );
 }
@@ -37,6 +34,16 @@ MetaEmail.propTypes = {
     name: PropTypes.string,
     subject: PropTypes.string
 }
+
+export const UserDetails = (props) => (
+    <div className="pure-u-3-4">
+        <h5 className="email-name">{props.name}</h5>
+        <h4 className="email-subject">{props.subject}</h4>
+        <p className="email-desc">
+            {props.desc}
+        </p>
+    </div>
+)
 
 export const Avatar = (props) => (
     <div className="pure-u">

@@ -1,5 +1,6 @@
 import {shallow} from 'enzyme';
 import React from 'react';
+import {Link} from 'react-router-dom';
 import {MenuItem,Menu,capString,getMenuItems} from '../Menu';
 import {fromJS,is,Map} from 'immutable';
 
@@ -18,9 +19,8 @@ describe("Menu", () => {
     it('should have menu items', () => {
         expect(menu.find('.pure-menu-item').length).toEqual(0);
     });
-    it('should have compose button', () => {
-        expect(menu.find('.pure-button').length).toBe(1);
-        expect(menu.find('.pure-button').text()).toEqual("Compose");
+    it('should have Link to compose button', () => {
+        expect(menu.find(Link).exists()).toBeTruthy();
     });
 
     it('should have the menu items according to props', () => {

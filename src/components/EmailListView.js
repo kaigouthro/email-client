@@ -9,7 +9,7 @@ export class EmailList extends Component {
         return (
             <div id="list" className="pure-u-1">
               {emailList.map( (item,index) => (
-                  <MetaEmail {...item.toJS()} key={index} handleClick={ () => selectEmail(index) }/>
+                  <MetaEmail {...item.toJS()} key={index} index={index} handleClick={ () => selectEmail(index) }/>
               ))}
             </div>
         )
