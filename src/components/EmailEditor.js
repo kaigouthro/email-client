@@ -33,7 +33,7 @@ class EmailEditor extends Component {
                     </div>
                 </div>
                 <div className="email-content-body">
-                    <textarea className="pure-input-1" name="emailBody" value={this.props.emailBody} onChange={this.handleChange} style={{height:'500px'}}/>
+                    <textarea className="pure-input-1" name="emailBody" value={this.props.emailBody} onChange={this.handleChange} style={{height:'400px'}}/>
                 </div>
             </div>
         )
