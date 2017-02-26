@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react';
+import React, { PropTypes} from 'react';
 import classNames from 'classnames';
 
 export const MetaEmail = (props) => {
@@ -8,7 +8,8 @@ export const MetaEmail = (props) => {
         name,
         subject,
         desc,
-        avatar
+        avatar,
+        handleClick
     } = props;
     const emailClass = classNames({
         'email-item':true,
@@ -17,8 +18,8 @@ export const MetaEmail = (props) => {
         'pure-g':true
     });
     return (
-        <div className={emailClass}>
-            <Avatar avatar={avatar}/>
+        <div className={emailClass} onClick={handleClick}>
+            <Avatar avatar={avatar} name={props.name}/>
             <div className="pure-u-3-4">
                 <h5 className="email-name">{name}</h5>
                 <h4 className="email-subject">{subject}</h4>
@@ -39,7 +40,7 @@ MetaEmail.propTypes = {
 
 export const Avatar = (props) => (
     <div className="pure-u">
-        <img width="64" height="64" className="email-avatar" src={props.avatar}/>
+        <img width="64" height="64" alt={props.name} className="email-avatar" src={props.avatar}/>
     </div>
 )
 

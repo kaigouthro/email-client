@@ -1,24 +1,25 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { MetaEmail } from './MetaEmail';
+import * as actions from '../actions';
 
-class EmailList extends Component {
+export class EmailList extends Component {
     render() {
-        const { emailList } = this.props;
+        const { emailList,selectEmail } = this.props;
         return (
             <div id="list" className="pure-u-1">
               {emailList.map( (item,index) => (
-                  <MetaEmail {...item.toJS()} key={index}/>
+                  <MetaEmail {...item.toJS()} key={index} handleClick={ () => selectEmail(index) }/>
               ))}
             </div>
         )
     }
 }
-const getEmails = (emailList,currentSelect) => {
-        return emailList.groupBy( value =>  value.get('group') ).get(currentSelect);
+export const getEmails = (emailList,currentSelect) => {
+        return emailList.get(currentSelect);
 }
-const mapStateToProps = (state) => ({
+export const mapStateToProps = (state) => ({
       emailList : getEmails(state.email.get('emailList'),state.email.get('currentSelect')),
 });
 
-export default connect(mapStateToProps)(EmailList);
+export default connect(mapStateToProps,actions)(EmailList);

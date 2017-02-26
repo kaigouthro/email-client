@@ -1,8 +1,7 @@
-import {shallow, render} from 'enzyme';
+import {shallow} from 'enzyme';
 import React from 'react';
-import {MenuItem,Menu} from '../Menu';
-import {Link} from 'react-router-dom';
-import {fromJS} from 'immutable';
+import {MenuItem,Menu,capString,getMenuItems} from '../Menu';
+import {fromJS,is,Map} from 'immutable';
 
 describe("Menu", () => {
     let menu = null;
@@ -31,6 +30,22 @@ describe("Menu", () => {
         };
         const menuItems = shallow(<Menu menuItems={fromJS(sampleProps)}/>);
         expect(menuItems.find(MenuItem).length).toEqual(2);
+    });
+    it("should have the capString method and should work as expected",()=>{
+        expect(capString('hello')).toEqual('Hello');
+        expect(capString('why')).toEqual('Why');
+    });
+    it("should have a method called getMenuItems to derive data from store",() => {
+          const testData = fromJS({
+                test1 :[{name : 'test',group:'test1'}],
+                test2 :[{name : 'test1',group:'test2'}],
+          });
+          const result = Map({
+                Test1 : 1,
+                Test2 : 1
+          });
+          const actualResult = getMenuItems(testData);
+          expect(is(result,actualResult)).toBeTruthy();
     });
 
 });

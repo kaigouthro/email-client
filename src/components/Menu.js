@@ -1,7 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {selectGroup} from '../actions';
-import {Link} from 'react-router-dom';
+import * as actions from '../actions';
 
 export class Menu extends Component {
     constructor(props) {
@@ -43,21 +42,16 @@ export const MenuItem = (props) => (
 MenuItem.propTypes = {
     name: PropTypes.string
 }
-const capString = (str) => {
+export const capString = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
-const getMenuItems = (emailList) => {
-    return emailList.groupBy(value => value.get('group')).map(value => value.size).mapKeys(capString);
+export const getMenuItems = (emailList) => {
+    return emailList.map(value => value.size).mapKeys(capString);
 }
 
 const mapStateToProps = (state) => ({
     menuItems: getMenuItems(state.email.get('emailList'))
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    selectGroup: (group) => {
-        dispatch(selectGroup(group))
-    }
-})
 
-export default connect(mapStateToProps,mapDispatchToProps)(Menu);
+export default connect(mapStateToProps,actions)(Menu);
