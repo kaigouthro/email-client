@@ -1,15 +1,30 @@
 import {shallow} from 'enzyme';
 import React from 'react';
 import {Link} from 'react-router-dom';
-import {MenuItem,Menu,capString,getMenuItems} from '../Menu';
+import {MenuItem,Menu,capString,getMenuItems,renderMenu} from '../Menu';
 import {fromJS,is,Map} from 'immutable';
+import R from 'ramda';
 
 describe("Menu", () => {
     let menu = null;
+    let selectGroup = null;
     beforeEach(() => {
-        menu = shallow(<Menu menuItems={fromJS([])}/>);
+        selectGroup = jest.fn();
+        menu = shallow(<Menu menuItems={fromJS([])} selectGroup={selectGroup}/>);
     });
 
+    it('should have a renderMenu method', () => {
+            expect(renderMenu).toBeTruthy();
+    });
+    it('renderMenu should behave as expected', () => {
+            const renderMenuItems = renderMenu(R.identity);
+            const testMap = Map({ "inbox" : 2 });
+            const result = renderMenuItems(testMap).valueSeq();
+            const component = shallow(result.get(0));
+            expect(result.size).toEqual(1);
+            expect(component.text()).toContain('inbox');
+            expect(component.text()).toContain('2');
+    });
     it('should have a menu', () => {
         expect(menu.find('.pure-menu').length).toEqual(1);
     });
@@ -28,7 +43,7 @@ describe("Menu", () => {
           "inbox" : 0,
           "sent" :  3
         };
-        const menuItems = shallow(<Menu menuItems={fromJS(sampleProps)}/>);
+        const menuItems = shallow(<Menu menuItems={fromJS(sampleProps)} selectGroup={jest.fn()}/>);
         expect(menuItems.find(MenuItem).length).toEqual(2);
     });
     it("should have the capString method and should work as expected",()=>{

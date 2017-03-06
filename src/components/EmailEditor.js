@@ -21,7 +21,9 @@ class EmailEditor extends Component {
                     <div className="email-content-header pure-g">
                         <div className="pure-u-1-2">
                             <h1 className="email-content-title">
-                                <input type="text" className="pure-input-1 email-subject-edit" name="emailSubject" value={this.props.emailSubject} onChange={this.handleChange} />
+                              <label>
+                                  Subject : <input type="text" className="pure-input-1 email-subject-edit" name="emailSubject" value={this.props.emailSubject} onChange={this.handleChange} />
+                              </label>
                             </h1>
                             <p className="email-content-subtitle">
                                 From  <a>Current User</a>
@@ -40,6 +42,9 @@ class EmailEditor extends Component {
     }
 }
 
-const mapStateToProps = (state) => ({emailBody: state.email.get('emailBody'), emailSubject: state.email.get('emailSubject')})
+const mapStateToProps = (state) => ({
+          emailBody: state.email.get('emailBody'),
+          emailSubject: state.email.get('emailSubject')
+});
 
 export default connect(mapStateToProps, actions)(EmailEditor);

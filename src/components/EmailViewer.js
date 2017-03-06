@@ -63,8 +63,8 @@ const DefaultBody = (props) => (
 )
 
 EmailHeader.propTypes = {
-    title: PropTypes.string,
-    name: PropTypes.string
+    title: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired
 }
 
 const mapStateToProps = (state) => ({
