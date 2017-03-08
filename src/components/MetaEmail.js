@@ -10,7 +10,8 @@ export const MetaEmail = (props) => {
         subject,
         desc,
         avatar,
-        handleClick
+        handleClick,
+        url
     } = props;
     const emailClass = classNames({
         'email-item': true,
@@ -19,8 +20,8 @@ export const MetaEmail = (props) => {
         'pure-g': true
     });
     return (
-        <div className={emailClass} onClick={handleClick}>
-            <Link to={`/email/${props.index}`}>
+        <div className={emailClass} >
+            <Link to={`${url}/email/${props.index}`} onClick={handleClick}>
                 <Avatar avatar={avatar} name={props.name}/>
                 <UserDetails name={name} desc={desc} subject={subject} />
             </Link>

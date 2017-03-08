@@ -27,9 +27,10 @@ const logger = createLogger({
 });
 const store = createStore(reducers, applyMiddleware(logger));
 
-ReactDOM.render(
-    <Provider store={store}>
-    <Router>
-        <App/>
-    </Router>
-</Provider>, document.getElementById('root'));
+const app = <Provider store={store}>
+                <Router>
+                    <App />
+                </Router>
+            </Provider>
+
+ReactDOM.render(app, document.getElementById('root'));

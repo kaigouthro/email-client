@@ -7,12 +7,12 @@ export class EmailList extends Component {
     render() {
         const { emailList,selectEmail,match } = this.props;
         const { groupName } = match.params;
+        console.log("match",match);
         const currentList = emailList.get(groupName ? groupName : 'inbox');
-        console.log(currentList.toJS());
         return (
             <div id="list" className="pure-u-1">
               {currentList.map( (item,index) => (
-                  <MetaEmail {...item.toJS()} key={index} index={index} handleClick={ () => selectEmail(index) }/>
+                  <MetaEmail {...item.toJS()} key={index} index={index} handleClick={ () => selectEmail(index) } url={match.url}/>
               ))}
             </div>
         )

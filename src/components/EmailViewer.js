@@ -1,15 +1,23 @@
 import React, {Component, PropTypes} from 'react';
-import {getEmails} from './EmailListView';
 import {connect} from 'react-redux';
 import { Link } from 'react-router-dom';
+
+const getEmailItem = (groupName,emailId,emailList) => {
+        if( !groupName && !emailId )
+            return emailList.getIn(['inbox',0]);
+        else if(!groupName)
+             return emailList.getIn(['inbox',emailId])
+        else if(!emailId)
+            return emailList.getIn([groupName,0]);
+        else
+            return emailList.getIn([groupName,emailId]);
+}
 
 export class EmailViewer extends Component {
     render() {
         const {match, emailList} = this.props;
-        const {emailId} = match.params;
-        const emailItem = emailId
-            ? emailList.get(emailId)
-            : emailList.get(0);
+        const {groupName,emailId} = match.params;
+        const emailItem = getEmailItem(groupName,emailId,emailList);
         const emailBody = emailItem.get('content',<DefaultBody />);
         return (
             <div id="main" className="pure-u-1">
@@ -23,6 +31,7 @@ export class EmailViewer extends Component {
         );
     }
 }
+
 
 export const EmailHeader = (props) => {
     return (
@@ -68,7 +77,7 @@ EmailHeader.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
-    emailList: getEmails(state.email.get('emailList'), state.email.get('currentSelect'))
+    emailList: state.email.get('emailList')
 })
 
 export default connect(mapStateToProps)(EmailViewer);
