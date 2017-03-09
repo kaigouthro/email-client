@@ -12,9 +12,14 @@ describe("selectGroup action", () => {
 
 describe("selectEmail action",() => {
     it("should have correct type", () => {
-        expect(selectEmail(1).type).toEqual(SELECT_EMAIL);
+        expect(selectEmail('inbox',1).type).toEqual(SELECT_EMAIL);
     });
     it("should have correct payload", () => {
-        expect(selectEmail(2).payload).toEqual(2);
+        expect(selectEmail('inbox',2).payload).toEqual(2);
+        expect(selectEmail('inbox',2).groupName).toEqual('inbox');
     });
+    it("should have proper default values" , () => {
+        expect(selectEmail(undefined,2).groupName).toEqual('inbox');
+        expect(selectEmail(undefined,2).payload).toEqual(2);
+    })
 });

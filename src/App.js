@@ -16,7 +16,7 @@ class App extends Component {
                 <Route path="/list/:groupName" component={EmailListView} />
                 <Route path="/list/:groupName" component={EmailViewer} exact/>
                 <Route path="/email/:emailId" component={EmailViewer} />
-                <Route path="/list/:groupName/email/:emailId" component={EmailViewer} />
+                <Route path="/email/:emailId" component={EmailListView} />
                 <Route path="/list/:groupName/email/:emailId" component={EmailViewer} />
             </div>
         );

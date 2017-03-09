@@ -38,7 +38,7 @@ Menu.propTypes = {
 
 export const MenuItem = (props) => (
     <li className="pure-menu-item">
-        <Link to={`/list/${props.name.toLowerCase()}`} className="pure-menu-link">
+        <Link to={`/list/${props.name.toLowerCase()}`} className="pure-menu-link" onClick={props.handleClick}>
             {props.name}   {props.count
                 ? <span className="email-count">
                         ({props.count})
@@ -47,18 +47,6 @@ export const MenuItem = (props) => (
         </Link>
     </li>
 )
-// export const MenuItem = (props) => (
-//     <li className="pure-menu-item">
-//         <a href="#" className="pure-menu-link" onClick={props.handleClick}>
-//             {props.name}   {props.count
-//                 ? <span className="email-count">
-//                         ({props.count})
-//                     </span>
-//                 : null}
-//         </a>
-//     </li>
-// )
-
 
 
 MenuItem.propTypes = {
@@ -71,7 +59,7 @@ export const getMenuItems = (emailList) => {
     return emailList.map(value => value.size).mapKeys(capString);
 }
 
-const mapStateToProps = (state) => ({
+export const mapStateToProps = (state) => ({
     menuItems: getMenuItems(state.email.get('emailList'))
 });
 

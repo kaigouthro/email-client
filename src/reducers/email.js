@@ -91,7 +91,7 @@ const emailReducer = (state = fromJS(initialState), action = {
                         })
                       })
                       .updateIn([
-                           'emailList',state.get('currentSelect'), action.payload
+                           'emailList',action.groupName, action.payload
                       ], (emailItem) => {
                           return emailItem.set('selected', true).set('unread', false);
                       });

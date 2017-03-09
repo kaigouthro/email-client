@@ -6,13 +6,12 @@ import * as actions from '../actions';
 export class EmailList extends Component {
     render() {
         const { emailList,selectEmail,match } = this.props;
-        const { groupName } = match.params;
-        console.log("match",match);
-        const currentList = emailList.get(groupName ? groupName : 'inbox');
+        const { groupName = 'inbox' } = match.params;
+        const currentList = emailList.get(groupName);
         return (
             <div id="list" className="pure-u-1">
               {currentList.map( (item,index) => (
-                  <MetaEmail {...item.toJS()} key={index} index={index} handleClick={ () => selectEmail(index) } url={match.url}/>
+                  <MetaEmail {...item.toJS()} key={index} index={index} handleClick={ () => selectEmail(groupName,index) } url={match.url === '/' ? "/list/inbox" : match.url}/>
               ))}
             </div>
         )

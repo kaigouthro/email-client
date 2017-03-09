@@ -8,14 +8,21 @@ describe("EmailListView", () => {
     let emailList = null;
     beforeEach(() => {
         const sampleProps = {
-            selected: false,
-            unread: false,
-            name: 'Test',
-            desc: 'Hello Test',
-            subject: 'TestSubject',
-            avatar: './src/img/test.jpg'
+            inbox: [{
+                selected: false,
+                unread: false,
+                name: 'Test',
+                desc: 'Hello Test',
+                subject: 'TestSubject',
+                avatar: './src/img/test.jpg'
+            }]
         };
-        emailList = shallow(<EmailList emailList={fromJS([sampleProps])}/>);
+        emailList = shallow(<EmailList emailList={fromJS(sampleProps)} match={{
+            params: {
+                groupName: 'inbox',
+                emailId: '0'
+            }
+        }}/>);
     });
     it("should have MetaEmail component", () => {
         expect(emailList.find(MetaEmail).exists()).toBeTruthy();
@@ -28,7 +35,7 @@ describe("EmailListView", () => {
     });
 
     it("should not have a MetaEmail component if list is empty", () => {
-        const email = shallow(<EmailList emailList={fromJS([])}/>);
+        const email = shallow(<EmailList emailList={fromJS({inbox : []})} match={{params : {}}}/>);
         expect(email.find(MetaEmail).exists()).toBeFalsy();
     });
     it("should have getEmails method and should work as expected", () => {

@@ -2,22 +2,12 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import { Link } from 'react-router-dom';
 
-const getEmailItem = (groupName,emailId,emailList) => {
-        if( !groupName && !emailId )
-            return emailList.getIn(['inbox',0]);
-        else if(!groupName)
-             return emailList.getIn(['inbox',emailId])
-        else if(!emailId)
-            return emailList.getIn([groupName,0]);
-        else
-            return emailList.getIn([groupName,emailId]);
-}
 
 export class EmailViewer extends Component {
     render() {
         const {match, emailList} = this.props;
-        const {groupName,emailId} = match.params;
-        const emailItem = getEmailItem(groupName,emailId,emailList);
+        const {groupName = 'inbox',emailId = 0 } = match.params;
+        const emailItem = emailList.getIn([groupName,emailId]);
         const emailBody = emailItem.get('content',<DefaultBody />);
         return (
             <div id="main" className="pure-u-1">
@@ -49,7 +39,7 @@ export const EmailHeader = (props) => {
     )
 }
 
-const DefaultBody = (props) => (
+export const DefaultBody = (props) => (
     <div>
         <p>
             Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -70,6 +60,15 @@ const DefaultBody = (props) => (
 
     </div>
 )
+
+EmailViewer.defaultProps = {
+      match :  {
+        params : {
+            groupName : 'inbox',
+            emailId : 0
+        }
+      }
+}
 
 EmailHeader.propTypes = {
     title: PropTypes.string.isRequired,

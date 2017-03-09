@@ -1,14 +1,14 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 import {Link} from 'react-router-dom';
-import {EmailHeader,EmailViewer} from '../EmailViewer';
+import {EmailHeader,EmailViewer,DefaultBody} from '../EmailViewer';
 import {fromJS} from 'immutable'
 
 describe("EmailViewer", () => {
     let emailEditor = null;
     beforeEach(() => {
-        const sampleProps = fromJS([
-            {
+        const sampleProps = fromJS({
+            inbox :[{
                 selected: false,
                 unread: true,
                 avatar: 'tilo.jpg',
@@ -25,8 +25,8 @@ describe("EmailViewer", () => {
                 subject: 'Re: Pull Requests',
                 group: 'inbox'
 
-            }
-        ]);
+            }]
+        });
         emailEditor = shallow(<EmailViewer match={{params:{emailId:1}}} emailList={sampleProps}/>);
     });
     it("should have email-content class", () => {
@@ -37,7 +37,12 @@ describe("EmailViewer", () => {
     });
     it("should have email body to edit text", () => {
         expect(emailEditor.find('.email-content-body').exists()).toBeTruthy();
-    })
+    });
+    it("should have a DefaultBody and should have a div inside it", () => {
+        expect(DefaultBody).toBeDefined();
+        const defaultBody = shallow(<DefaultBody />);
+        expect(defaultBody.find('div')).toBeDefined();
+    });
 
 });
 
